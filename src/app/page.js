@@ -11,6 +11,15 @@ export default function Home() {
             Scan. Earn. Loop{" "}
           </p>
           <img src="/info.png" alt="Info Graphic" width="800" />
+          <button className="px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-zinc-200 transition">
+            Get Started
+          </button>
+        </div>
+        <div className="flex">
+          <p>Already have an account? </p>
+          <button className="px-3 text-blue-500">
+            Log In
+          </button>
         </div>
 
       </main>
