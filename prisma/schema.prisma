@@ -11,3 +11,46 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// Stores customer account information used for authentication and point tracking
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+// Stores randomly generated QR codes used for unique point log
+model QRCode{
+  id           String   @id @default(cuid())
+  token        String   @unique
+  pointsValue  Int
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime 
+}
+
+// model PointTransaction {
+//   id           String   @id @default(cuid())
+//   userId
+//   qrCodeId
+//   pointsAmount
+//   type
+//   createdAt
+// }
+
+// model Reward{ 
+//   id
+//   name
+//   pointsCost
+//   isActive
+//   createdAt
+// }
+
+
+// model Merchant{
+//   id
+//   name
+//   createdAt
+// }
