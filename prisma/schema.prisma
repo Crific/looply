@@ -22,35 +22,34 @@ model User {
   createdAt    DateTime @default(now())
 }
 
-// Stores randomly generated QR codes used for unique point log
-model QRCode{
-  id           String   @id @default(cuid())
-  token        String   @unique
-  pointsValue  Int
-  createdAt    DateTime @default(now())
-  expiresAt    DateTime 
+// Stores randomly generated QR codes used for unique point claims.
+model QRCode {
+  id          String   @id @default(cuid())
+  token       String   @unique
+  pointsValue Int
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime
 }
 
-// model PointTransaction {
-//   id           String   @id @default(cuid())
-//   userId
-//   qrCodeId
-//   pointsAmount
-//   type
-//   createdAt
-// }
+model PointTransaction {
+  id           String   @id @default(cuid())
+  userId       String
+  qrCodeId     String?
+  pointsAmount Int
+  type         String
+  createdAt    DateTime @default(now())
+}
 
-// model Reward{ 
-//   id
-//   name
-//   pointsCost
-//   isActive
-//   createdAt
-// }
+model Reward {
+  id         String   @id @default(cuid())
+  name       String
+  pointsCost Int
+  isActive   Boolean
+  createdAt  DateTime @default(now())
+}
 
-
-// model Merchant{
-//   id
-//   name
-//   createdAt
-// }
+model Merchant {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+}
