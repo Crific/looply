@@ -1,6 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 export default function SignupPage() {
+  const router = useRouter();
+
   async function handleSubmit(event) {
     // Stop the form from refreshing the page
     event.preventDefault();
@@ -30,12 +34,17 @@ export default function SignupPage() {
     // Convert the backend response into a JavaScript object
     const data = await response.json();
 
-    console.log(data);
+    // If success then proceed to login page
+    if (response.ok) {
+      router.push("/login");
+      return;
+    }
+
+    // else log error
+    console.log(data.error);
   }
 
   return (
-
-    // Basic signup implementation ** WIP**
     <main>
       <h1>Sign Up</h1>
 
