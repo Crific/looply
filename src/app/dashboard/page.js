@@ -1,15 +1,30 @@
-// Basic user dashboard - WIP
-
 import { auth, signOut } from "@/auth";
+import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
-  // Check the current user's session
+  // Check if the user is logged in
   const session = await auth();
 
-  if (!session?.user) {
+  if (!session?.user?.id) {
     redirect("/login");
   }
+
+  // Fetch the user's point transactions, newest first
+  const transactions = await prisma.pointTransaction.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  // Calculate the total points earned from QR claims
+  const totalPoints = transactions.reduce(
+    (total, transaction) => total + transaction.pointsAmount,
+    0
+  );
 
   return (
     <main>
@@ -19,19 +34,29 @@ export default async function DashboardPage() {
 
       <section>
         <h3>My Points</h3>
-        <p>Current Balance: 0 points</p>
+        <p>Current Balance: {totalPoints} points</p>
       </section>
 
       <section>
         <h3>Recent Activity</h3>
-        <p>No transactions yet.</p>
+
+        {transactions.length === 0 ? (
+          <p>No transactions yet.</p>
+        ) : (
+          <ul>
+            {/* Display the five most recent QR claims */}
+            {transactions.slice(0, 5).map((transaction) => (
+              <li key={transaction.id}>
+                +{transaction.pointsAmount} points
+                {" - "}
+                {transaction.createdAt.toLocaleString()}
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
-      <section>
-        <h3>Available Rewards</h3>
-        <p>No rewards available yet.</p>
-      </section>
-
+      {/* Sign out and return to login */}
       <form
         action={async () => {
           "use server";
