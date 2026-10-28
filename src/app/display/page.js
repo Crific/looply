@@ -80,6 +80,19 @@ export default function DisplayPage() {
             marginSize={4}
           />
 
+          {/* Claim URL for testing */}
+          <div className="mt-4">
+            <p>Claim URL:</p>
+            <a
+              href={claimUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline break-all"
+            >
+              {claimUrl}
+            </a>
+          </div>
+
           <p>Points Value: {qrCode.pointsValue}</p>
 
           <p>
@@ -88,7 +101,6 @@ export default function DisplayPage() {
           </p>
 
           <p>QR code refreshes every 30 seconds.</p>
-
         </section>
       )}
     </main>
